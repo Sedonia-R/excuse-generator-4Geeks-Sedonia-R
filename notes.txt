@@ -1,0 +1,92 @@
+Zach to me (@Sedonia Raethstein):
+The feedback thing on the 4Geeks site isn't working :face_with_rolling_eyes: But a 
+couple pieces of feedback: always put the <script> tag at the very end of your body, 
+right before the closing body tag.
+
+Instead of hard coding the number for each array in these lines
+
+let who = param1[Math.floor(Math.random() * 4)];
+
+What if you wanted to change the length of the array? A more conventional approach would 
+be to use the length of the array programmatically:
+
+let who = param1[Math.floor(Math.random() * param1.length)];
+
+furthermore, this isn't totally necessary right now, but it might be useful to see an 
+example of how this code could be "cleaned up"
+It kind of goes into what Ernesto was just giving an example of, a function calling a 
+function.
+
+So instead of writing Math.floor(Math.random() * someNumber for each variable, we 
+could create a function that does this for us. (DRY)
+
+const getRandomElement = (array) => array[Math.floor(Math.random() * array.length)];
+
+So then we could refactor the excuse function like so:
+
+const generateExcuse = (who, action, what, when) => {
+  const randomWho = getRandomElement(who);
+  const randomAction = getRandomElement(action);
+  const randomWhat = getRandomElement(what);
+  const randomWhen = getRandomElement(when);
+  return `${randomWho} ${randomAction} ${randomWhat} ${randomWhen}`;
+};
+
+I replaced param1, param2, etc for clarity. This way when someone looks at the 
+function declaration, it will be clear what kind of parameters the function expects.
+One last thing, again not a huge deal, but this approach is more conventional. 
+document.write isn't often used, instead we should manipulate the DOM directly like so:
+const excuseElement = document.createElement('p');
+
+excuseElement.textContent = generateExcuse(who, action, what, when);
+document.body.appendChild(excuseElement);
+
+I hope these changes make sense, let me know if you have any questions. 
+I'll still approve your project, it works and you're not expected to write code in 
+this way right now. Again I just thought it might be useful to see some of these 
+concepts in action.
+
+Me:
+Thank you - this is all super helpful! I don't really understand manipulating the DOM 
+though:
+
+const excuseElement = document.createElement('p');
+excuseElement.textContent = generateExcuse(who, action, what, when);
+document.body.appendChild(excuseElement);
+
+Would you be willing to explain what is happening here line by line?
+
+Zach:
+Yeah of course, but let me change it a little bit
+HTML:
+<h1 id="anIdOnThisElementWillAllowItToBeTargetedWithJS"> This is the text element in 
+the html that I would like to change using JavaScript </h1>
+
+JS:
+const excuseElement = document.getElementById("anIdOnThisElementWillAllowItToBeTargetedWithJS) 
+// We "grab" the element by its id, there are many ways to "grab" html elements with js
+
+excuseElement.textContent = generateExcuse(who, action, what, when); 
+// here we use .textContent to insert text into the HTML element (the one that we grabbed 
+and assigned to this variable)
+
+Your setup may vary. Maybe you want to have the generated excuse text inside of a <p> tag. 
+In that case you would append the <p> tag to the <h1> tag.
+// assuming we have already selected the <p> tag, let's say we grab it and store it in a 
+variable called "hello"
+
+excuseElement.appendChild(hello)
+
+Then we would take the hello variable, which holds the <p> tag, and it will make it a 
+child of the excuseElement which is the h1 that we had grabbed previously
+As I type this Ernesto has been helping you with a similar thing, so idk if this will 
+help anymore lol (edited) 
+
+& this code may not work as written, I haven't actually verified that the syntax and 
+everything is totally correct, but hopefully you get the general idea.
+
+Me: 
+Definitely helpful! Thank you so much!
+
+Zach:
+Of course, anytime!
